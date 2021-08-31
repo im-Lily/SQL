@@ -33,3 +33,22 @@ select 제조업체, count(*) as "제품수", max(단가) "최고가" from 제�
 
 -- 7.34 제품 테이블에서 제품을 3개 이상 제조한 제조업체별로 제품의 개수와, 제품 중 가장 비싼 단가 검색
 select 제조업체, count(*) "제품수", max(단가) "최고가" from 제품 group by 제조업체 having count(*) >= 3;
+
+-- 서브쿼리 : 괄호로 묶어 작성하고 order by 절 사용 불가
+-- 서브쿼리 먼저 수행
+-- 단일 행 서브쿼리 -> 일반 비교 연산자 사용 가능
+-- 다중 행 서브쿼리 -> 일반 비교 연산자 사용 불가
+-- 7.40 달콤비스킷을 생산한 제조업체가 만든 제품들의 제품명과 단가 검색
+-- 단일 행 서브쿼리 
+select 제품명, 단가 from 제품 where 제조업체 = (select 제조업체 from 제품 where 제품명 = "달콤비스킷");
+
+-- 7.42 banana 고객이 주문한 제품의 제품명과 제조업체 검색
+-- 다중 행 서브쿼리
+select 제품명, 제조업체 from 제품 where 제품번호 in (select 주문제품 from 주문 where 주문고객 = "banana"); 
+select 제품.제품명, 제품.제조업체 from 제품, 주문 where 주문.주문고객 = "banana" and 제품.제품번호 = 주문.주문제품;
+
+-- 7.43 banana 고객이 주문하지 않은 제품의 제품명과 제조업체 검색
+select 제품명, 제조업체 from 제품 where 제품번호 not in (select 주문제품 from 주문 where 주문고객 = "banana"); 
+
+-- 7.44 대한식품이 제조한 모든 제품의 단가보다 비싼 제품의 제품명, 단가, 제조업체 검색
+select 제품명, 단가, 제조업체 from 제품 where 단가 > all (select 단가 from 제품 where 제조업체 = "대한식품");

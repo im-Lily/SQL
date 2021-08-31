@@ -26,3 +26,12 @@ select count(*) as "고객수" from 고객;
 
 -- 7.35 고객 테이블에서 적립금 평균이 1,000원 이상인 등급에 대해 등급별 고객수와 적립금 평균 검색
 select 등급, count(*) "고객수", avg(적립금) "적립금 평균" from 고객 group by 등급 having avg(적립금) >= 1000;
+
+-- 7.41 적립금이 가장 많은 고객의 고객이름과 적립금 검색
+select 고객이름, 적립금 from 고객 where 적립금 = (select max(적립금) from 고객);
+
+-- 7.45 2019년 3월 15일에 제품을 주문한 고객의 고객이름 검색
+select 고객이름 from 고객 where exists (select * from 주문 where 주문일자 = "2019-03-15" and 주문.주문고객 = 고객.고객아이디);
+
+-- 7.46 2019년 3월 15일에 제품을 주문하지 않은 고객의 고객이름 검색
+select 고객이름 from 고객 where not exists (select * from 주문 where 주문일자 = "2019-03-15" and 주문.주문고객 = 고객.고객아이디);
