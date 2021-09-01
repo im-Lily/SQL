@@ -60,3 +60,26 @@ select * from 제품;
 -- 7.50 제품 테이블에 있는 모든 제품의 단가를 10% 인상
 update 제품 set 단가 = 단가 * 1.1;
 select * from 제품;
+
+-- 7.56 제품 테이블에서 제조업체별 제품수로 구성된 뷰를 업체별제품수라는 이름으로 생성 
+create view 업체별제품수 as select 제조업체, count(제품번호) as "제품수" from 제품 group by 제조업체;
+-- create view 업체별제품수(제조업체, 제품수) as select 제조업체, count(*) from 제품 group by 제조업체;
+select * from 업체별제품수;
+
+create view 제품1 as select 제품번호, 재고량, 제조업체 from 제품 with check option;
+create view 제품2 as select 제품명, 재고량, 제조업체 from 제품 with check option;
+
+-- 7.58 제품번호가 p08, 재고량이 1000, 제조업체가 신선식품인 새로운 제품의 데이터를 제품1 뷰에 삽입
+select * from 제품1;
+insert into 제품1 values ('p08',1000,'신선식품'); -- 생성된 뷰를 통해 제품 테이블에 새로운 튜플 삽입
+select * from 제품; -- 뷰를 통해 제시하지 않은 제품명 속성과 단가 속성은 널 값 저장alter
+
+-- 검색 연산은 모든 뷰에 수행할 수 있지만 삽입,수정,삭제 연산은 허용되지 않는 뷰 존재
+-- 1. 기본 테이블의 기본키를 구성하는 속성이 포함되어 있지 않은 뷰는 변경 불가
+-- 2. 기본 테이블에 있던 내용이 아니라 집계 함수로 새로 계산된 내용을 포함하고 있는 뷰는 변경 불가
+-- 3. distinct 키워드를 포함하여 정의한 뷰는 변경 불가
+-- 4. group by 절을 포함하여 정의한 뷰는 변경 불가
+-- 5. 여러 개의 테이블 조인하여 정의한 뷰는 변경 불가
+
+drop view 제품1;
+select * from 제품;

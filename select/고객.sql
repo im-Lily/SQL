@@ -44,3 +44,14 @@ select * from 고객;
 -- 정은심 고객의 직업 속성이 널 값인지 확인
 insert into 고객 (고객아이디, 고객이름, 나이, 등급, 적립금) values ('tomato','정은심',36,'gold',4000);
 select 고객이름, 직업 from 고객 where 직업 is null;
+
+-- 7.55 고객 테이블에서 등급이 vip인 고객의 고객아이디, 고객이름, 나이로 구성된 뷰를 우수고객이라는 이름으로 생성하고 검색
+-- with check option : 생성한 뷰에 삽입이나 수정 연산을 할 때 select 문에서 제시한 뷰의 정의 조건 위반시 수행되지 않는 제약조건
+create view 우수고객 as select 고객아이디, 고객이름, 나이 from 고객 where 등급 = 'vip' with check option;
+select * from 우수고객;
+
+-- 7.57 우수고객 뷰에서 나이가 25세 이상인 고객에 대한 모든 내용 검색
+select * from 우수고객 where 나이 >= 25;
+
+-- 7.59 우수고객 뷰 삭제
+drop view 우수고객;
