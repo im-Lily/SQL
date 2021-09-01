@@ -52,3 +52,11 @@ select 제품명, 제조업체 from 제품 where 제품번호 not in (select 주
 
 -- 7.44 대한식품이 제조한 모든 제품의 단가보다 비싼 제품의 제품명, 단가, 제조업체 검색
 select 제품명, 단가, 제조업체 from 제품 where 단가 > all (select 단가 from 제품 where 제조업체 = "대한식품");
+
+-- 7.49 제품 테이블에서 제품번호가 p03인 제품의 제품명을 통큰파이로 수정
+update 제품 set 제품명 = '통큰파이' where 제품번호 = 'p03';
+select * from 제품;
+
+-- 7.50 제품 테이블에 있는 모든 제품의 단가를 10% 인상
+update 제품 set 단가 = 단가 * 1.1;
+select * from 제품;

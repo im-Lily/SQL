@@ -25,3 +25,15 @@ select 주문.주문제품, 주문.주문일자 from 고객, 주문 where 고객
 -- 7.39 고명석 고객이 주문한 제품의 제품명 검색
 select 제품.제품명 from 제품, 고객, 주문 where 고객.고객이름 = "고명석" and 고객.고객아이디 = 주문.주문고객 and 제품.제품번호 = 주문.주문제품;
 
+-- 7.51 정소화 고객이 주문한 제품의 주문수량을 5개로 수정
+update 주문 set 수량 = 5 where 주문고객 in (select 고객아이디 from 고객 where 고객이름 = '정소화');
+select * from 주문;
+
+-- 7.52 주문 테이블에서 주문일자가 2019년 5월 22일인 주문내역 삭제
+delete from 주문 where 주문일자 = '2019-05-22';
+select * from 주문;
+
+-- 7.53 정소화 고객이 주문한 내역을 주문 테이블에서 삭제
+delete from 주문 where 주문고객 in (select 고객아이디 from 고객 where 고객이름 = '정소화');
+select * from 주문;
+select * from 주문 where 주문고객 in (select 고객아이디 from 고객 where 고객이름 = '정소화');

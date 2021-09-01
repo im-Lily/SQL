@@ -35,3 +35,12 @@ select 고객이름 from 고객 where exists (select * from 주문 where 주문�
 
 -- 7.46 2019년 3월 15일에 제품을 주문하지 않은 고객의 고객이름 검색
 select 고객이름 from 고객 where not exists (select * from 주문 where 주문일자 = "2019-03-15" and 주문.주문고객 = 고객.고객아이디);
+
+-- 7.47 고객 테이블에 고객아이디가 strawberry, 고객이름이 최유경, 나이가 30세, 등급이 vip, 직업이 공무원, 적립금이 100원인 새로운 고객 데이터 삽입
+insert into 고객 values ('strawberry','최유경',30,'vip','공무원',100);
+select * from 고객;
+
+-- 7.48 고객 테이블에 고객아이디가 tomato, 고객이름이 정은심, 나이가 36세, 등급이 gold, 적립금은 4000원, 직업은 아직 모르는 새로운 고객 데이터 삽입
+-- 정은심 고객의 직업 속성이 널 값인지 확인
+insert into 고객 (고객아이디, 고객이름, 나이, 등급, 적립금) values ('tomato','정은심',36,'gold',4000);
+select 고객이름, 직업 from 고객 where 직업 is null;
