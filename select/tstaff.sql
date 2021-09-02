@@ -38,3 +38,41 @@ select * from tstaff where depart in ('총무부','영업부');
 select * from tstaff where depart in ('인사과','영업부') and grade = '대리';
 -- 15. 차장급 이상의 여직원 검색
 select * from tstaff where grade in ('차장','부장','이사') and gender = '여';
+
+-- 16. 직원 목록을 월급이 적은 사람부터 순서대로 출력하되, 월급이 같다면 성취도가 높은 사람 먼저 출력
+select * from tstaff order by salary, score desc;
+-- 17. 영업부 직원을 먼저 입사한 순서대로 정렬
+select * from tstaff where depart = '영업부' order by joindate;
+-- 18. 2020년 이후 신입 직원을 받은 적이 있는 부서 목록 조회
+select distinct depart from tstaff where joindate >= '2020-01-01';
+
+-- 5장. 데이터 집계
+-- 1. 실적도 없이 놀고 있는 두 직원은 누구인지 조회 
+select name from tstaff where score is null;
+-- 2. 성취도가 80점 이상인 직원이 몇 명이나 되는지 검색
+select count(name) from tstaff where score >= 80;
+-- 3. 여직원 중 최고 월급은 얼마인지 검색
+select name, max(salary) as '최고 월급' from tstaff where gender = '여';
+-- 4. 총무부 직원이 최초로 입사한 날짜 검색
+select min(joindate) from tstaff where depart = '총무부';
+select joindate from tstaff where depart = '총무부' order by joindate limit 1;
+
+-- 6장. 데이터 관리
+-- 2. 직원 목록에 임의의 데이터 삽입
+insert into tstaff values ('부엉이','영업부','여','2019-04-13','사원',330,79.20);
+-- 4. 성취도가 80점 이상인 직원만 골라 이름과 월급에 대한 보고서를 별도의 테이블로 작성
+create table 보고서 as select name, salary from tstaff where score >= 80;
+select * from 보고서;
+-- 5. 영업부 직원 전부 해고
+delete from tstaff where depart = '영업부';
+-- 6. 여자 사원급을 모두 대리로 진급
+update tstaff set grade = '대리' where gender = '여' and grade = '사원';
+-- 7. 영업부 직원의 월급 10%씩 인상
+update tstaff set salary = salary * 1.1 where depart ='영업부';
+
+-- 9장. 서브쿼리
+-- 1. 성취도가 제일 높은 직원 조회
+select name from tstaff where score = (select max(score) from tstaff);
+-- 2. 평균 잉상의 월급을 받는 직원 목록 조회
+select name from tstaff where salary >= (select avg(salary) from tstaff);
+-- 

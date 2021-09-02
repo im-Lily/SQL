@@ -49,5 +49,16 @@ select * from tcity where area between 500 and 1000;
 select * from tcity where region in ('경상','전라');
 select * from tcity where region not in ('경상','전라');
 
+-- 5장. 데이터 집계
+-- 5. 도시 목록에서 지역별 인구수 조회
+select region, sum(popu) as '지역별 인구수' from tcity group by region;
+-- 6. 각 지역에서 가장 넓은 면적을 구하되, 인구가 50만 이상인 도시만 대상으로 함
+select * from tcity where popu >= 50 group by region having max(area);
+-- 7. 각 지역별 평균 면적을 구하되 평균 면적이 1000 이상인 지역만 출력
+select region, avg(area) as '지역별 평균 면적' from tcity group by region having avg(area) >= 1000;
 
-
+-- 6장. 데이터 관리
+-- 1. 도시 목록에 용인 삽입하라. 면적 293에 인구 98만이되 데이터는 임의의값을 써도 무관
+insert into tcity values ('용인',293,98,'y','경기');
+-- 3. 도시 목록에 이천(461km,21만)과 대구(883km,248만), 영월(1127km, 4만) 삽입
+insert into tcity values ('이천',461,21,'n','경기'), ('대구',883,248,'y','경상'), ('영월',1127,4,'n','강원');
