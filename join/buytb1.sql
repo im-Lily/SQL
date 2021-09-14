@@ -23,8 +23,9 @@ group by prodname;
 select userid, sum(amount*price)
 from buytb1
 group by userid;
--- 5.  buytb1에서 사용자들이 평균적으로 몇 개의 물건을 샀는지 출력 -- TODO
-select userid, avg(count(*))
+-- 5. buytb1에서 사용자들이 평균적으로 몇 개의 물건을 샀는지 출력 
+-- TODO
+select userid, count(prodname)
 from buytb1
 group by userid;
 /* 

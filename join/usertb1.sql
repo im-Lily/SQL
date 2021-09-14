@@ -32,9 +32,11 @@ order by height desc; 내림차순
 */
 select avg(height)
 from usertb1;
--- 7.  usertb1 에서 키가 가장 큰 사용자와 키가 가장 작은 사용자의 이름 출력 -- TODO
-select min(height) as "가장 작은 키", max(height) as "가장 큰 키"
-from usertb1;
+-- 7.  usertb1 에서 키가 가장 큰 사용자와 키가 가장 작은 사용자의 이름 출력 
+select name, height
+from usertb1
+where height 
+= (select max(height) from usertb1) or height = (select min(height) from usertb1);
 -- 8. usertb1 에서 지역 별로 사용자들의 키 평균이 몇인지 출력하라
 select addr, avg(height)
 from usertb1
