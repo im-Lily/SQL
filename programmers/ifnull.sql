@@ -1,0 +1,25 @@
+-- 생물 종, 이름, 성별 및 중성화 여부를 아이디 순으로 조회
+-- 이름없는 동물은 "No name"으로 표시
+
+SELECT ANIMAL_TYPE, IFNULL(NAME,"No name") AS NAME, SEX_UPON_INTAKE
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID;
+
+-- SELECT ANIMAL_TYPE,
+-- CASE WHEN NAME IS NULL THEN "No name"
+-- ELSE NAME
+-- END AS NAME, 
+-- SEX_UPON_INTAKE
+-- FROM ANIMAL_INS
+-- ORDER BY ANIMAL_ID;
+
+-- SELECT ANIMAL_TYPE, COALESCE(NAME, 'No name') AS NAME, SEX_UPON_INTAKE
+-- FROM ANIMAL_INS
+-- ORDER BY ANIMAL_ID;
+
+/**
+NULL 처리
+IFNULL : 해당 컬럼이 NULL일 경우 다른 값으로 출력 가능
+CASE-WHEN-THEN-END : 조건식에 따른 값 변환 가능
+COALESCE : 지정된 표현식 들 중에 NULL이 아닌 값 반환
+*/
